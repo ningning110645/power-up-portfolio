@@ -1,1 +1,29 @@
 /* Custom styles for Power Up! Portfolio */
+header{
+    margin: 0%;
+}
+#Home {
+    min-height: 100vh;
+    padding: 50px;
+    margin: auto;
+
+}
+
+#Home img {
+    max-height: 350px;
+    width: auto;
+    transform: rotate(8deg);
+    transition: transform 0.4s ease;
+}
+
+#Home img:hover {
+    transform: rotate(-6deg) scale(1.03); 
+}
+h4{
+    font-weight: 400;
+    font-size: large;
+    padding: 10px;
+}
+nav ul{
+    padding: 10px;
+}
