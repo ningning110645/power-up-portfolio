@@ -1,0 +1,51 @@
+{
+  "portfolioId": "port001",
+  "name": "John (Mock Profile)",
+  "whatIEnjoy": "Designing user interfaces and playing tactical RPGs",
+  "whatIveTried": "Creating single-page HTML/CSS websites",
+  "whatImCuriousAbout": "Learning JavaScript for dynamic web apps",
+  "items": [
+    {
+      "id": "item001",
+      "title": "Basic Portfolio Website",
+      "type": "Course Assignment",
+      "date": "2026-08-20",
+      "role": "Frontend Developer",
+      "description": "Created a personal portfolio using semantic HTML and external CSS.",
+      "skills": [
+        "HTML",
+        "CSS"
+      ],
+      "reflection": {
+        "whatIDid": "Built the layout and styled the typography",
+        "whatILearned": "Understanding CSS Box Model",
+        "challenge": "Aligning elements correctly",
+        "nextStep": "Add responsive design with Bootstrap"
+      },
+      "evidence": [
+        "https://github.com/example/a1-project"
+      ]
+    },
+    {
+      "id": "item002",
+      "title": "CSTU Website Redesign",
+      "type": "UI/UX Prototype",
+      "date": "2026-05-15",
+      "role": "UI Designer",
+      "description": "Designed interactive Lo-Fi and Hi-Fi prototypes.",
+      "skills": [
+        "Figma",
+        "UI Design"
+      ],
+      "reflection": {
+        "whatIDid": "Created wireframes and 12-column grid layouts",
+        "whatILearned": "Using auto-layout and components",
+        "challenge": "Making the design responsive for mobile",
+        "nextStep": "Export assets for frontend development"
+      },
+      "evidence": [
+        "https://figma.com/file/example-cstu-redesign"
+      ]
+    }
+  ]
+}

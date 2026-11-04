@@ -20,8 +20,7 @@
         <div class="collapse navbar-collapse" id="maintoggler">
           <ul class="navbar-nav fw-bold custom-nav ms-auto gap-2">
             <li class="nav-item"><a class="nav-link" href="#Home">Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="#portfolio-form-section">Portlio Form</a>
-            </li>
+            <li class="nav-item"><a class="nav-link" href="#portfolio-form-section">Portfolio Form</a></li>
             <li class="nav-item"><a class="nav-link" href="#item-form-section">Add Item</a></li>
             <li class="nav-item"><a class="nav-link" href="#portfolio-view">Preview</a></li>
           </ul>
@@ -31,7 +30,8 @@
   </header>
 
   <main class="container my-5">
-    <section id="Home">
+    <!-- ===== Home Section ===== -->
+    <section id="Home" class="mb-5">
       <div class="container">
         <div class="row align-items-center">
           <div class="col-12 col-md-6 text-center text-md-start">
@@ -53,46 +53,126 @@
 
     <!-- ===== Create Portfolio Form ===== -->
     <section id="portfolio-form-section" class="card shadow-sm border-0 rounded-4 mb-5">
-      <div class="card-body">
-        <h2>Portfolio information</h2>
+      <div class="card-body p-4">
+        <h2 class="h4 mb-4">Portfolio information</h2>
 
         <form id="portfolio-form" novalidate>
           <div class="row g-3 mb-3">
-            <div class="col-md-6 ">
+            <div class="col-md-6">
               <label for="first-name" class="form-label">First name</label>
-              <input type="text" class="form-control" name="first-name" required>
+              <input type="text" class="form-control" id="first-name" name="first-name" required>
             </div>
-            <div class="col-md-6 mt-3">
+            <div class="col-md-6">
               <label for="last-name" class="form-label">Last name</label>
-              <input type="text" class="form-control" name="last-name" required>
+              <input type="text" class="form-control" id="last-name" name="last-name" required>
             </div>
           </div>
 
           <div class="mb-3">
             <label for="What-i-enjoy" class="form-label">What I Enjoy</label>
-            <textarea class="form-control form-control-lg" id="What-i-enjoy" row="4" required></textarea>
+            <textarea class="form-control form-control-lg" id="What-i-enjoy" name="whatIEnjoy" rows="4" required></textarea>
           </div>
 
           <div class="mb-3">
             <label for="What-i've-tried" class="form-label">What I've Tried</label>
-            <textarea class="form-control form-control-lg" id="what-i-tried" row="4" required></textarea>
+            <textarea class="form-control form-control-lg" id="what-i-tried" name="whatITried" rows="4" required></textarea>
           </div>
 
           <div class="mb-3">
             <label for="What-I'm-Curious-About" class="form-label">What I'm Curious About</label>
-            <textarea class="form-control form-control-lg" id="What-I'm-Curious-About" row="4" required></textarea>
+            <textarea class="form-control form-control-lg" id="What-I'm-Curious-About" name="whatICuriousAbout" rows="4" required></textarea>
           </div>
+
           <div class="d-grid d-md-flex justify-content-md-end">
-            <button type="Save" class="btn btn-primary">Save</button>
+            <button type="submit" class="btn btn-primary px-4">Save</button>
           </div>
         </form>
       </div>
-
     </section>
 
-
     <!-- ===== Add Portfolio Item Form ===== -->
-    <section id="item-form-section"></section>
+    <section id="item-form-section" class="card shadow-sm border-0 rounded-4 mb-5">
+      <div class="card-body p-4">
+        <h2 class="h4 mb-4">Add Portfolio Item</h2>
+
+        <form id="item-form" novalidate>
+          <div class="mb-3">
+            <label for="portfolio-select" class="form-label">Portfolio</label>
+            <select id="portfolio-select" name="portfolioId" class="form-select" required>
+              <option value="">-- Select a portfolio --</option>
+            </select>
+          </div>
+
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <label for="title" class="form-label">Title</label>
+              <input type="text" id="title" name="title" class="form-control" required>
+            </div>
+            <div class="col-md-3">
+              <label for="type" class="form-label">Type</label>
+              <select id="type" name="type" class="form-select" required>
+                <option value="">-- Select --</option>
+                <option>Course Assignment</option>
+                <option>Personal Project</option>
+                <option>Activity</option>
+                <option>Competition</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <label for="date" class="form-label">Date</label>
+              <input type="date" id="date" name="date" class="form-control" required>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="role" class="form-label">Role</label>
+            <input type="text" id="role" name="role" class="form-control" placeholder="e.g. Developer" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea id="description" name="description" class="form-control" rows="3" required></textarea>
+          </div>
+
+          <div class="mb-4">
+            <label for="skills" class="form-label">Skills</label>
+            <input type="text" id="skills" name="skills" class="form-control" placeholder="HTML, CSS, Teamwork" required>
+            <div class="form-text">Separate skills with commas</div>
+          </div>
+
+          <h3 class="h6 mb-3">Reflection</h3>
+          <div class="row g-3 mb-4">
+            <div class="col-md-6">
+              <label for="whatIDid" class="form-label">What I did</label>
+              <textarea id="whatIDid" name="whatIDid" class="form-control" rows="2" required></textarea>
+            </div>
+            <div class="col-md-6">
+              <label for="whatILearned" class="form-label">What I learned</label>
+              <textarea id="whatILearned" name="whatILearned" class="form-control" rows="2" required></textarea>
+            </div>
+            <div class="col-md-6">
+              <label for="challenge" class="form-label">Challenge</label>
+              <textarea id="challenge" name="challenge" class="form-control" rows="2" required></textarea>
+            </div>
+            <div class="col-md-6">
+              <label for="nextStep" class="form-label">Next step</label>
+              <textarea id="nextStep" name="nextStep" class="form-control" rows="2" required></textarea>
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label for="evidence" class="form-label">Evidence links</label>
+            <textarea id="evidence" name="evidence" class="form-control" rows="2" placeholder="https://example.com/my-work" required></textarea>
+            <div class="form-text">One URL per line (at least 1)</div>
+          </div>
+
+          <div class="d-grid d-md-flex justify-content-md-end">
+            <button type="submit" class="btn btn-primary px-4">Add Item</button>
+          </div>
+        </form>
+      </div>
+    </section>
 
     <!-- ===== Portfolio View ===== -->
     <section id="portfolio-view"></section>
