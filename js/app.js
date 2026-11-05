@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
   refreshUI();
 
   // -------------------------------------------------------------
-  // 2. จัดการฟอร์มสร้าง Portfolio (#portfolio-form)
+  // 1. จัดการฟอร์มสร้าง Portfolio (#portfolio-form)
   // -------------------------------------------------------------
   const portfolioForm = document.getElementById("portfolio-form");
   if (portfolioForm) {
@@ -15,84 +15,104 @@ document.addEventListener("DOMContentLoaded", function () {
       const tried = document.getElementById("what-i-tried")?.value.trim() || "";
       const curious = document.getElementById("What-I'm-Curious-About")?.value.trim() || "";
 
-      // ตรวจสอบว่าใส่ชื่ออย่างน้อย 1 ช่องหรือไม่
+      // Validation: บังคับเช็กแค่ First name หรือ Last name
       if (!firstName && !lastName) {
-        alert("กรุณากรอก First name หรือ Last name ก่อนกด Save ครับ");
+        alert("⚠️ กรุณากรอก First name หรือ Last name ก่อนบันทึกครับ");
         return;
       }
 
       const fullName = `${firstName} ${lastName}`.trim();
       const descriptionText = `Enjoy: ${enjoy} | Tried: ${tried} | Curious: ${curious}`;
 
-      // โครงสร้างข้อมูลที่สอดคล้องกับ render.js และ storage.js
-      const newPortfolio = {
-        title: fullName,
-        description: descriptionText,
-        items: []
-      };
-
-      try {
-        window.PowerUpStorage.savePortfolio(newPortfolio);
+      if (window.PowerUpStorage && typeof window.PowerUpStorage.savePortfolio === "function") {
+        window.PowerUpStorage.savePortfolio({
+          title: fullName,
+          description: descriptionText,
+          items: []
+        });
         alert("บันทึก Portfolio สำเร็จเรียบร้อย!");
         portfolioForm.reset();
-        refreshUI(); // อัปเดตการ์ดแสดงผล และดรอปดาวน์ทันที
-      } catch (err) {
-        console.error("Save Portfolio Error:", err);
-        alert("เกิดข้อผิดพลาดในการบันทึก Portfolio");
+        refreshUI();
+      } else {
+        alert("ไม่พบฟังก์ชัน savePortfolio ใน storage.js");
       }
     });
   }
 
   // -------------------------------------------------------------
-  // 3. จัดการฟอร์มเพิ่ม Item (#item-form)
+  // 2. จัดการฟอร์มเพิ่ม Item (#item-form)
   // -------------------------------------------------------------
   const itemForm = document.getElementById("item-form");
   if (itemForm) {
     itemForm.addEventListener("submit", function (e) {
       e.preventDefault();
 
-      const selectElement = document.getElementById("portfolio-select");
-      const portfolioId = selectElement?.value;
+      const portfolioId = document.getElementById("portfolio-select")?.value;
+      const title = document.getElementById("title")?.value.trim() || "";
+      const type = document.getElementById("type")?.value || "";
+      const date = document.getElementById("date")?.value || "";
+      const role = document.getElementById("role")?.value.trim() || "";
+      const description = document.getElementById("description")?.value.trim() || "";
+      const skills = document.getElementById("skills")?.value.trim() || "";
+      const evidence = document.getElementById("evidence")?.value.trim() || "";
 
+      // Validation 1: บังคับเลือก Portfolio และใส่ Title
       if (!portfolioId) {
-        alert("กรุณาเลือก Portfolio ที่ต้องการเพิ่ม Item ก่อนครับ");
+        alert("⚠️ กรุณาเลือก Portfolio จากตัวเลือกล่าสุดก่อนเพิ่ม Item ครับ");
         return;
       }
 
+      if (!title) {
+        alert("⚠️ กรุณากรอก Title (ชื่อผลงาน) ก่อนกดเพิ่ม Item ครับ");
+        return;
+      }
+
+      // Validation 2: ตรวจสอบรูปแบบ URL ในช่อง Evidence (ถ้ามีการกรอก)
+      if (evidence) {
+        if (!isValidURL(evidence)) {
+          alert("⚠️ รูปแบบ URL ในช่อง Evidence ไม่ถูกต้อง! กรุณากรอกลิงก์ที่ถูกต้อง เช่น https://github.com หรือ http://example.com");
+          return;
+        }
+      }
+
       const newItem = {
-        title: document.getElementById("title")?.value.trim() || "",
-        type: document.getElementById("type")?.value || "",
-        date: document.getElementById("date")?.value || "",
-        role: document.getElementById("role")?.value.trim() || "",
-        description: document.getElementById("description")?.value.trim() || "",
-        skills: document.getElementById("skills")?.value.trim() || "", // storage.js จะ split(',') แปลงเป็น Array ให้เอง
-        whatIDid: document.getElementById("whatIDid")?.value.trim() || "",
-        whatILearned: document.getElementById("whatILearned")?.value.trim() || "",
-        challenge: document.getElementById("challenge")?.value.trim() || "",
-        nextStep: document.getElementById("nextStep")?.value.trim() || "",
-        evidence: document.getElementById("evidence")?.value.trim() || "" // storage.js จะ split('\n') แปลงเป็น Array ให้เอง
+        title: title,
+        type: type,
+        date: date,
+        role: role,
+        description: description,
+        skills: skills,
+        evidence: evidence
       };
 
-      try {
+      if (window.PowerUpStorage && typeof window.PowerUpStorage.addPortfolioItem === "function") {
         window.PowerUpStorage.addPortfolioItem(portfolioId, newItem);
         alert("เพิ่ม Item เข้า Portfolio เรียบร้อยแล้ว!");
         itemForm.reset();
-        refreshUI(); // อัปเดตหน้าเว็บทันที
-      } catch (err) {
-        console.error("Add Item Error:", err);
-        alert("เกิดข้อผิดพลาดในการเพิ่ม Item: " + err.message);
+        refreshUI();
+      } else {
+        alert("ไม่พบฟังก์ชัน addPortfolioItem ใน storage.js");
       }
     });
   }
 
+  // ฟังก์ชันช่วยเช็กความถูกต้องของ URL
+  function isValidURL(string) {
+    try {
+      const url = new URL(string.startsWith("http://") || string.startsWith("https://") ? string : `https://${string}`);
+      // ต้องมีจุด (.) ใน domain เช่น github.com
+      return url.hostname.includes(".");
+    } catch (_) {
+      return false;
+    }
+  }
+
   // -------------------------------------------------------------
-  // ฟังก์ชันช่วย อัปเดตหน้าจอและการ์ดแสดงผล
+  // ฟังก์ชันอัปเดตหน้าจอ
   // -------------------------------------------------------------
   function refreshUI() {
-    // 1. โหลดตัวเลือกใส่ Dropdown
     updatePortfolioDropdown();
 
-    // 2. เรียกฟังก์ชัน renderSavedPortfolios() จาก render.js ของเพื่อน
     if (window.PowerUpRender && typeof window.PowerUpRender.renderSavedPortfolios === "function") {
       window.PowerUpRender.renderSavedPortfolios();
     }
@@ -107,8 +127,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     portfolios.forEach(function (p) {
       const option = document.createElement("option");
-      option.value = p.id; // ส่ง ID จริงของ storage.js
-      option.textContent = p.title || "Untitled Portfolio";
+      option.value = p.id;
+      option.textContent = p.title || `Portfolio ${p.id}`;
       select.appendChild(option);
     });
   }
