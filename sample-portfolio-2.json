@@ -1,51 +1,53 @@
 {
-  "portfolioId": "port002",
-  "name": "Smith (Mock Profile 2)",
-  "whatIEnjoy": "Analyzing data trends and managing game servers",
-  "whatIveTried": "Multiple linear regression diagnostic tests",
-  "whatImCuriousAbout": "Advanced machine learning models",
-  "items": [
-    {
-      "id": "item003",
-      "title": "Student Filter Usage Survey",
-      "type": "Data Analysis",
-      "date": "2026-10-25",
-      "role": "Data Analyst",
-      "description": "Evaluated filter usage habits among university students.",
-      "skills": [
-        "SPSS",
-        "Statistics"
-      ],
-      "reflection": {
-        "whatIDid": "Designed the sampling method and ran heteroscedasticity tests",
-        "whatILearned": "Interpreting Durbin-Watson autocorrelation results",
-        "challenge": "Cleaning incomplete survey responses",
-        "nextStep": "Create data visualizations in RStudio"
-      },
-      "evidence": [
-        "https://github.com/example/student-survey-analysis"
-      ]
-    },
-    {
-      "id": "item004",
-      "title": "Custom Multiplayer Server",
-      "type": "System Administration",
-      "date": "2026-09-10",
-      "role": "Server Admin",
-      "description": "Configured a customized server with modpacks for multiplayer sessions.",
-      "skills": [
-        "Server Management",
-        "Configuration"
-      ],
-      "reflection": {
-        "whatIDid": "Installed and configured BetterEnd and BCLib mods",
-        "whatILearned": "Managing server resources and memory allocation",
-        "challenge": "Fixing mod compatibility issues",
-        "nextStep": "Implement custom enchantment systems"
-      },
-      "evidence": [
-        "https://example.com/server-config-repo"
-      ]
-    }
-  ]
+ "id": "port002",
+ "name": "Smith (Mock Profile 2)",
+ "whatIEnjoy": "Analyzing data trends and managing game servers",
+ "whatIveTried": "Multiple linear regression diagnostic tests",
+ "whatImCuriousAbout": "Advanced machine learning models",
+ "items": [
+   {
+     "id": "item003",
+     "title": "Student Filter Usage Survey",
+     "type": "Activity",
+     "date": "2026-10-25",
+     "role": "Data Analyst",
+     "description": "Evaluated filter usage habits among university students.",
+     "skills": [
+       "SPSS",
+       "Statistics"
+     ],
+     "reflection": {
+       "whatIDid": "Designed the sampling method and ran heteroscedasticity tests",
+       "whatILearned": "Interpreting Durbin-Watson autocorrelation results",
+       "challenge": "Cleaning incomplete survey responses",
+       "nextStep": "Create data visualizations in RStudio"
+     },
+     "evidence": [
+       "https://github.com/example/student-survey-analysis"
+     ],
+     "portfolioId": "port002"
+   },
+   {
+     "id": "item004",
+     "title": "Custom Multiplayer Server",
+     "type": "Personal Project",
+     "date": "2026-09-10",
+     "role": "Server Admin",
+     "description": "Configured a customized server with modpacks for multiplayer sessions.",
+     "skills": [
+       "Server Management",
+       "Configuration"
+     ],
+     "reflection": {
+       "whatIDid": "Installed and configured BetterEnd and BCLib mods",
+       "whatILearned": "Managing server resources and memory allocation",
+       "challenge": "Fixing mod compatibility issues",
+       "nextStep": "Implement custom enchantment systems"
+     },
+     "evidence": [
+       "https://example.com/server-config-repo"
+     ],
+     "portfolioId": "port002"
+   }
+ ]
 }
