@@ -66,6 +66,61 @@ function renderPortfolios(portfolios) {
         itemBody.appendChild(skills);
       }
 
+      function addDetail(label, value) {
+        if (value === undefined || value === null || value === "") {
+          return;
+        }
+
+        const detail = document.createElement("p");
+        detail.className = "card-text mb-2";
+
+        const strong = document.createElement("strong");
+        strong.textContent = label + ": ";
+
+        detail.appendChild(strong);
+        detail.appendChild(document.createTextNode(String(value)));
+        itemBody.appendChild(detail);
+      }
+
+      addDetail("Type", item.type);
+      addDetail("Date", item.date);
+      addDetail("Role", item.role);
+      addDetail("Reflection", item.reflection);
+
+      if (item.evidence) {
+        const evidence = document.createElement("p");
+        evidence.className = "card-text mb-2";
+
+        const label = document.createElement("strong");
+        label.textContent = "Evidence: ";
+        evidence.appendChild(label);
+
+        const values = Array.isArray(item.evidence)
+          ? item.evidence
+          : [item.evidence];
+
+        values.forEach(function (value, index) {
+          const text = String(value);
+          const link = document.createElement("a");
+
+          if (/^https?:\/\//i.test(text)) {
+            link.href = text;
+            link.target = "_blank";
+            link.rel = "noopener noreferrer";
+            link.textContent = "View Evidence " + (index + 1);
+            evidence.appendChild(link);
+          } else {
+            evidence.appendChild(document.createTextNode(text));
+          }
+
+          if (index < values.length - 1) {
+            evidence.appendChild(document.createTextNode(" | "));
+          }
+        });
+
+        itemBody.appendChild(evidence);
+      }
+
       itemCard.appendChild(itemBody);
       column.appendChild(itemCard);
       itemList.appendChild(column);
@@ -80,8 +135,6 @@ function renderPortfolios(portfolios) {
 window.PowerUpRender = {
   renderPortfolios: renderPortfolios
 };
-
-
 
 function renderSavedPortfolios() {
   if (!window.PowerUpStorage ||
