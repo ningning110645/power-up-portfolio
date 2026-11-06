@@ -9,20 +9,16 @@ document.addEventListener("DOMContentLoaded", function () {
     portfolioForm.addEventListener("submit", function (e) {
       e.preventDefault();
 
-      const firstName = document.getElementById("first-name")?.value.trim() || "";
-      const lastName = document.getElementById("last-name")?.value.trim() || "";
-      const enjoy = document.getElementById("What-i-enjoy")?.value.trim() || "";
-      const tried = document.getElementById("what-i-tried")?.value.trim() || "";
-      const curious = document.getElementById("What-I'm-Curious-About")?.value.trim() || "";
-
-      // Validation: บังคับเช็กแค่ First name หรือ Last name
-      if (!firstName && !lastName) {
-        alert("⚠️ กรุณากรอก First name หรือ Last name ก่อนบันทึกครับ");
+      // ตรวจข้อมูลด้วย validate.js
+      const result = window.PowerUpValidate.validatePortfolioForm(portfolioForm);
+      if (!result.valid) {
+        alert(result.errors.join("\n"));
         return;
       }
 
-      const fullName = `${firstName} ${lastName}`.trim();
-      const descriptionText = `Enjoy: ${enjoy} | Tried: ${tried} | Curious: ${curious}`;
+      const p = result.portfolio;
+      const fullName = `${p.firstName} ${p.lastName}`.trim();
+      const descriptionText = `Enjoy: ${p.enjoy} | Tried: ${p.tried} | Curious: ${p.curious}`;
 
       if (window.PowerUpStorage && typeof window.PowerUpStorage.savePortfolio === "function") {
         window.PowerUpStorage.savePortfolio({
@@ -47,43 +43,15 @@ document.addEventListener("DOMContentLoaded", function () {
     itemForm.addEventListener("submit", function (e) {
       e.preventDefault();
 
-      const portfolioId = document.getElementById("portfolio-select")?.value;
-      const title = document.getElementById("title")?.value.trim() || "";
-      const type = document.getElementById("type")?.value || "";
-      const date = document.getElementById("date")?.value || "";
-      const role = document.getElementById("role")?.value.trim() || "";
-      const description = document.getElementById("description")?.value.trim() || "";
-      const skills = document.getElementById("skills")?.value.trim() || "";
-      const evidence = document.getElementById("evidence")?.value.trim() || "";
-
-      // Validation 1: บังคับเลือก Portfolio และใส่ Title
-      if (!portfolioId) {
-        alert("⚠️ กรุณาเลือก Portfolio จากตัวเลือกล่าสุดก่อนเพิ่ม Item ครับ");
+      // ตรวจข้อมูลด้วย validate.js
+      const result = window.PowerUpValidate.validateItemForm(itemForm);
+      if (!result.valid) {
+        alert(result.errors.join("\n"));
         return;
       }
 
-      if (!title) {
-        alert("⚠️ กรุณากรอก Title (ชื่อผลงาน) ก่อนกดเพิ่ม Item ครับ");
-        return;
-      }
-
-      // Validation 2: ตรวจสอบรูปแบบ URL ในช่อง Evidence (ถ้ามีการกรอก)
-      if (evidence) {
-        if (!isValidURL(evidence)) {
-          alert("⚠️ รูปแบบ URL ในช่อง Evidence ไม่ถูกต้อง! กรุณากรอกลิงก์ที่ถูกต้อง เช่น https://github.com หรือ http://example.com");
-          return;
-        }
-      }
-
-      const newItem = {
-        title: title,
-        type: type,
-        date: date,
-        role: role,
-        description: description,
-        skills: skills,
-        evidence: evidence
-      };
+      const portfolioId = result.portfolioId;
+      const newItem = result.item;
 
       if (window.PowerUpStorage && typeof window.PowerUpStorage.addPortfolioItem === "function") {
         window.PowerUpStorage.addPortfolioItem(portfolioId, newItem);
@@ -94,17 +62,6 @@ document.addEventListener("DOMContentLoaded", function () {
         alert("ไม่พบฟังก์ชัน addPortfolioItem ใน storage.js");
       }
     });
-  }
-
-  // ฟังก์ชันช่วยเช็กความถูกต้องของ URL
-  function isValidURL(string) {
-    try {
-      const url = new URL(string.startsWith("http://") || string.startsWith("https://") ? string : `https://${string}`);
-      // ต้องมีจุด (.) ใน domain เช่น github.com
-      return url.hostname.includes(".");
-    } catch (_) {
-      return false;
-    }
   }
 
   // -------------------------------------------------------------
