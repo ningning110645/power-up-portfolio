@@ -7,7 +7,7 @@
 
   function splitList(text) {
     const result = [];
-    const parts = text.split(",");
+    const parts = text.split(/[\n,]+/);
     for (let i = 0; i < parts.length; i++) {
       const s = parts[i].trim();
       if (s !== "") result.push(s);
