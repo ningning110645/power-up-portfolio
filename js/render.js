@@ -21,7 +21,7 @@ function renderPortfolios(portfolios) {
 
     const title = document.createElement("h3");
     title.className = "card-title";
-    title.textContent = portfolio.title || portfolio.name || "Untitled Portfolio";
+    title.textContent = portfolio.displayName || portfolio.title || "Untitled Portfolio";
     body.appendChild(title);
 
     if (portfolio.description) {
