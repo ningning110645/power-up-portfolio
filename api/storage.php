@@ -13,7 +13,21 @@ if (php_sapi_name() === 'cli-server') {
 define('DATA_FILE', DATA_DIR . '/portfolios.json');
 
 //read
+// Only ONE request at a time may use the data file (from the M13 starter).
+// Without this, 2 people saving at the same time can overwrite each other.
+function lockData() {
+    static $lock = null;
+    if ($lock === null) {
+        $lock = @fopen(DATA_DIR . '/data.lock', 'c');
+        if ($lock === false) {
+            cannotSave(DATA_DIR . '/data.lock');
+        }
+        flock($lock, LOCK_EX);
+    }
+}
+
 function readPortfolios() {
+    lockData();
     if (!file_exists(DATA_FILE)) { //check if file exists, if not return empty array
         return [];
     }
