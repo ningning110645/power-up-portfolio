@@ -15,7 +15,9 @@ if ($portfolioId === '' || $title === '') {
 
 // เตรียมข้อมูล skills, evidence และ reflection (รองรับทั้งจากฟอร์มและ Paste JSON)
 $rawSkills   = is_array($input['skills'] ?? '') ? $input['skills'] : explode(',', $input['skills'] ?? '');
-$rawEvidence = is_array($input['evidence'] ?? '') ? $input['evidence'] : explode(',', $input['evidence'] ?? '');
+$rawEvidence = is_array($input['evidence'] ?? '') ? 
+$input['evidence'] : preg_split('/[\n,]+/', 
+$input['evidence'] ?? '');
 $ref         = is_array($input['reflection'] ?? null) ? $input['reflection'] : [];
 
 $item = [
