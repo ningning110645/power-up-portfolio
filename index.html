@@ -94,6 +94,14 @@
     <section id="item-form-section" class="card shadow-sm border-0 rounded-4 mb-5">
       <div class="card-body p-4">
         <h2 class="h4 mb-4">Add Portfolio Item</h2>
+                <!-- Import an Item JSON from a Challenge -->
+        <div class="border rounded-3 p-3 mb-4">
+          <h3 class="h6">Import Item JSON from a Challenge</h3>
+          <textarea id="import-json" class="form-control mb-2" rows="4"
+                    placeholder='Paste the Item JSON here, e.g. {"title": "...", "type": "Challenge", ...}'></textarea>
+          <button type="button" id="import-btn" class="btn btn-outline-primary btn-sm">Fill the form</button>
+          <p id="import-message" class="small mt-2 mb-0"></p>
+        </div>
 
         <form id="item-form" novalidate>
           <div class="mb-3">
@@ -116,6 +124,7 @@
                 <option>Personal Project</option>
                 <option>Activity</option>
                 <option>Competition</option>
+                <option>Challenge</option>
                 <option>Other</option>
               </select>
             </div>
