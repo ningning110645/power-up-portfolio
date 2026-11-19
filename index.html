@@ -203,6 +203,127 @@
       </div>
     </section>
 
+    <!-- ===== Challenge Section ===== -->
+    <section id="challenge-section" class="card shadow-sm border-0 rounded-4 mb-5">
+      <div class="card-body p-4">
+        <h2 class="h4 mb-3">Challenge Festival</h2>
+        <p class="text-muted">Complete a challenge and generate an Item JSON.</p>
+
+<div class="card bg-light border-0 rounded-3 mb-4">
+  <div class="card-body">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <h3 class="h5 mb-0">Your Quest</h3>
+      <span class="badge bg-warning text-dark">Quest</span>
+    </div>
+
+    <p class="mb-2">
+      Complete the booth challenge to earn your badge!
+    </p>
+
+    <div class="progress mb-2" style="height: 12px;">
+      <div id="challenge-progress"
+           class="progress-bar bg-success"
+           style="width: 0%;"
+           role="progressbar"
+           aria-valuenow="0"
+           aria-valuemin="0"
+           aria-valuemax="100"></div>
+    </div>
+
+    <p id="challenge-status" class="small text-muted mb-0">
+      Quest not completed yet.
+    </p>
+
+    <div id="challenge-badge" class="alert alert-success mt-3 mb-0 d-none"
+         role="status">
+      🏆 Quest Completed! You earned a badge!
+    </div>
+  </div>
+</div>
+<section class="border rounded-3 p-3 mb-4" aria-labelledby="css-challenge-title">
+  <h3 id="css-challenge-title" class="h5">CSS Challenge</h3>
+
+    <div class="css-wheel-wrap">
+  <span class="css-wheel-pointer" aria-hidden="true"></span>
+  <div id="css-challenge-wheel" class="css-wheel" aria-hidden="true">
+    <span style="--slot: 0">1</span>
+    <span style="--slot: 1">2</span>
+    <span style="--slot: 2">3</span>
+    <span style="--slot: 3">4</span>
+    <span style="--slot: 4">5</span>
+    <span style="--slot: 5">6</span>
+    <span style="--slot: 6">7</span>
+    <span style="--slot: 7">8</span>
+    <span style="--slot: 8">9</span>
+    <span style="--slot: 9">10</span>
+  </div>
+</div>
+
+<ul id="css-challenge-tasks" aria-live="polite">
+  <li>Press Spin Challenge to get your tasks.</li>
+</ul>
+
+  <div class="row g-3">
+    <div class="col-md-6">
+      <label for="css-challenge-editor" class="form-label">CSS Editor</label>
+      <textarea id="css-challenge-editor" class="form-control font-monospace"
+        rows="8" spellcheck="false"></textarea>
+    </div>
+
+    <div class="col-md-6">
+      <p class="form-label">Live Preview</p>
+      <iframe id="css-challenge-preview" title="Live Preview"
+  class="w-100 border rounded" height="220" sandbox="allow-same-origin"
+  srcdoc="<h1>My Website</h1><p>Welcome to my page</p><button>Click Me</button>">
+</iframe>
+    </div>
+  </div>
+
+  <div class="d-flex flex-wrap gap-2 mt-3">
+    <button id="css-challenge-spin" type="button" class="btn btn-primary">
+      Spin Challenge
+    </button>
+    <button id="css-challenge-check" type="button" class="btn btn-outline-primary">
+      Check CSS
+    </button>
+  </div>
+
+  <p id="css-challenge-result" class="mt-2 mb-0" role="status"></p>
+</section>
+        <form id="challenge-form">
+          <div class="mb-3">
+            <label for="challenge-title" class="form-label">Challenge Title</label>
+            <input type="text" id="challenge-title" class="form-control" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="challenge-description" class="form-label">Description</label>
+            <textarea id="challenge-description" class="form-control" rows="3" required></textarea>
+          </div>
+
+          <div class="mb-3">
+            <label for="challenge-skills" class="form-label">Skills</label>
+            <input type="text" id="challenge-skills" class="form-control"
+              placeholder="HTML, CSS, Teamwork" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="challenge-evidence" class="form-label">Evidence Links</label>
+            <textarea id="challenge-evidence" class="form-control" rows="2"
+              placeholder="https://example.com" required></textarea>
+          </div>
+
+<button type="submit" class="btn btn-primary">Complete Challenge</button>
+        </form>
+
+        <div class="mt-4">
+          <label for="challenge-output" class="form-label">Generated Item JSON</label>
+          <textarea id="challenge-output" class="form-control" rows="10" readonly></textarea>
+          <p id="challenge-message" class="small mt-2 mb-0"></p>
+        </div>
+      </div>
+    </section>
+
     <!-- ===== Portfolio View ===== -->
     <section id="portfolio-view"></section>
   </main>
@@ -213,6 +334,7 @@
   <script src="js/render.js"></script>
   <script src="js/app.js"></script>
   <script src="js/import-export.js"></script>
+  <script src="js/css-challenge.js"></script>
 </body>
 
 </html>
