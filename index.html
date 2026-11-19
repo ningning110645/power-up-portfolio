@@ -70,17 +70,20 @@
 
           <div class="mb-3">
             <label for="What-i-enjoy" class="form-label">What I Enjoy</label>
-            <textarea class="form-control form-control-lg" id="What-i-enjoy" name="whatIEnjoy" rows="4" required></textarea>
+            <textarea class="form-control form-control-lg" id="What-i-enjoy" name="whatIEnjoy" rows="4"
+              required></textarea>
           </div>
 
           <div class="mb-3">
             <label for="What-i've-tried" class="form-label">What I've Tried</label>
-            <textarea class="form-control form-control-lg" id="what-i-tried" name="whatITried" rows="4" required></textarea>
+            <textarea class="form-control form-control-lg" id="what-i-tried" name="whatITried" rows="4"
+              required></textarea>
           </div>
 
           <div class="mb-3">
             <label for="What-I'm-Curious-About" class="form-label">What I'm Curious About</label>
-            <textarea class="form-control form-control-lg" id="What-I'm-Curious-About" name="whatICuriousAbout" rows="4" required></textarea>
+            <textarea class="form-control form-control-lg" id="What-I'm-Curious-About" name="whatICuriousAbout" rows="4"
+              required></textarea>
           </div>
 
           <div class="d-grid d-md-flex justify-content-md-end">
@@ -94,16 +97,20 @@
     <section id="item-form-section" class="card shadow-sm border-0 rounded-4 mb-5">
       <div class="card-body p-4">
         <h2 class="h4 mb-4">Add Portfolio Item</h2>
-                <!-- Import an Item JSON from a Challenge -->
+        <!-- Import an Item JSON from a Challenge -->
         <div class="border rounded-3 p-3 mb-4">
           <h3 class="h6">Import Item JSON from a Challenge</h3>
           <textarea id="import-json" class="form-control mb-2" rows="4"
-                    placeholder='Paste the Item JSON here, e.g. {"title": "...", "type": "Challenge", ...}'></textarea>
+            placeholder='Paste the Item JSON here, e.g. {"title": "...", "type": "Challenge", ...}'></textarea>
+          <label for="import-file" class="form-label small text-muted mb-1">Got a .json file instead? Choose it
+            here:</label>
+          <input type="file" id="import-file" class="form-control form-control-sm mb-2" accept=".json,application/json">
           <button type="button" id="import-btn" class="btn btn-outline-primary btn-sm">Fill the form</button>
           <p id="import-message" class="small mt-2 mb-0"></p>
         </div>
 
         <form id="item-form" novalidate>
+          <input type="hidden" id="challengeId" name="challengeId">
           <div class="mb-3">
             <label for="portfolio-select" class="form-label">Portfolio</label>
             <select id="portfolio-select" name="portfolioId" class="form-select" required>
@@ -146,7 +153,8 @@
 
           <div class="mb-4">
             <label for="skills" class="form-label">Skills</label>
-            <input type="text" id="skills" name="skills" class="form-control" placeholder="HTML, CSS, Teamwork" required>
+            <input type="text" id="skills" name="skills" class="form-control" placeholder="HTML, CSS, Teamwork"
+              required>
             <div class="form-text">Separate skills with commas</div>
           </div>
 
@@ -172,7 +180,8 @@
 
           <div class="mb-4">
             <label for="evidence" class="form-label">Evidence links</label>
-            <textarea id="evidence" name="evidence" class="form-control" rows="2" placeholder="https://example.com/my-work" required></textarea>
+            <textarea id="evidence" name="evidence" class="form-control" rows="2"
+              placeholder="https://example.com/my-work" required></textarea>
             <div class="form-text">One URL per line (at least 1)</div>
           </div>
 
@@ -180,6 +189,17 @@
             <button type="submit" class="btn btn-primary px-4">Add Item</button>
           </div>
         </form>
+      </div>
+    </section>
+    <!-- ===== Export my Portfolio ===== -->
+    <section id="export-section" class="card shadow-sm border-0 rounded-4 mb-5">
+      <div class="card-body p-4">
+        <h2 class="h4 mb-3">Export my Portfolio</h2>
+        <p class="text-muted small">Choose your Portfolio in the "Add Portfolio Item" form above, then export it.</p>
+        <button type="button" id="export-btn" class="btn btn-success">Export my-portfolio.json</button>
+                <button type="button" id="copy-export-btn" class="btn btn-outline-secondary">Copy JSON</button>
+        <textarea id="export-json" class="form-control mt-3" rows="8" readonly></textarea>
+        <p id="export-message" class="small mt-2 mb-0"></p>
       </div>
     </section>
 
@@ -192,6 +212,7 @@
   <script src="js/validate.js"></script>
   <script src="js/render.js"></script>
   <script src="js/app.js"></script>
+  <script src="js/import-export.js"></script>
 </body>
 
 </html>
