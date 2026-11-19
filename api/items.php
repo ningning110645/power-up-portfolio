@@ -35,6 +35,7 @@ $item = [
         'nextStep'     => trim($input['nextStep']     ?? $ref['nextStep']     ?? ''),
     ],
     'evidence'    => array_values(array_filter(array_map('trim', $rawEvidence))),
+    'challengeId' => trim($input['challengeId'] ?? ''),
 ];
 
 $portfolios = readPortfolios();
