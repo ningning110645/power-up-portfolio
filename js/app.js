@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // -------------------------------------------------------------
     const portfolioForm = document.getElementById("portfolio-form");
     if (portfolioForm) {
-        portfolioForm.addEventListener("submit", function (e) {
+        portfolioForm.addEventListener("submit", async function (e) {
             e.preventDefault();
 
             // ตรวจข้อมูลด้วย validate.js
@@ -16,23 +16,21 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
 
-            const p = result.portfolio;
-            const fullName = `${p.firstName} ${p.lastName}`.trim();
-
-            if (window.PowerUpStorage && typeof window.PowerUpStorage.savePortfolio === "function") {
-                // Field names follow the portfolio JSON contract (same as sample-portfolio-*.json)
-                window.PowerUpStorage.savePortfolio({
-                    name: fullName,
-                    whatIEnjoy: p.enjoy,
-                    whatIveTried: p.tried,
-                    whatImCuriousAbout: p.curious,
-                    items: []
+            try {
+                // FormData ใช้ name="..." ของฟอร์มตามข้อตกลง:
+                // displayName, whatIEnjoy, whatIveTried, whatImCuriousAbout
+                const res = await fetch("api/portfolios.php", {
+                    method: "POST",
+                    body: new FormData(portfolioForm)
                 });
+                if (!res.ok) throw new Error("HTTP " + res.status);
+
                 alert("บันทึก Portfolio สำเร็จเรียบร้อย!");
                 portfolioForm.reset();
-                refreshUI();
-            } else {
-                alert("ไม่พบฟังก์ชัน savePortfolio ใน storage.js");
+                await refreshUI();
+            } catch (err) {
+                console.error("Failed to save portfolio:", err);
+                alert("บันทึก Portfolio ไม่สำเร็จ กรุณาลองใหม่");
             }
         });
     }
@@ -42,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // -------------------------------------------------------------
     const itemForm = document.getElementById("item-form");
     if (itemForm) {
-        itemForm.addEventListener("submit", function (e) {
+        itemForm.addEventListener("submit", async function (e) {
             e.preventDefault();
 
             // ตรวจข้อมูลด้วย validate.js
@@ -52,42 +50,59 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
 
-            const portfolioId = result.portfolioId;
-            const newItem = result.item;
+            try {
+                // FormData ส่ง portfolioId, title, type, date, role, description,
+                // skills, whatIDid, whatILearned, challenge, nextStep, evidence
+                const res = await fetch("api/items.php", {
+                    method: "POST",
+                    body: new FormData(itemForm)
+                });
+                if (!res.ok) throw new Error("HTTP " + res.status);
 
-            if (window.PowerUpStorage && typeof window.PowerUpStorage.addPortfolioItem === "function") {
-                window.PowerUpStorage.addPortfolioItem(portfolioId, newItem);
                 alert("เพิ่ม Item เข้า Portfolio เรียบร้อยแล้ว!");
                 itemForm.reset();
-                refreshUI();
-            } else {
-                alert("ไม่พบฟังก์ชัน addPortfolioItem ใน storage.js");
+                await refreshUI();
+            } catch (err) {
+                console.error("Failed to add item:", err);
+                alert("เพิ่ม Item ไม่สำเร็จ กรุณาลองใหม่");
             }
         });
     }
 
     // -------------------------------------------------------------
-    // ฟังก์ชันอัปเดตหน้าจอ
+    // ฟังก์ชันอัปเดตหน้าจอ (โหลดจาก Server)
     // -------------------------------------------------------------
-    function refreshUI() {
-        updatePortfolioDropdown();
-
-        if (window.PowerUpRender && typeof window.PowerUpRender.renderSavedPortfolios === "function") {
-            window.PowerUpRender.renderSavedPortfolios();
+    async function loadPortfolios() {
+        try {
+            const res = await fetch("api/portfolios.php");
+            if (!res.ok) throw new Error("HTTP " + res.status);
+            const data = await res.json();
+            return Array.isArray(data) ? data : [];
+        } catch (err) {
+            console.error("Failed to load portfolios:", err);
+            return [];
         }
     }
 
-    function updatePortfolioDropdown() {
-        const select = document.getElementById("portfolio-select");
-        if (!select || !window.PowerUpStorage) return;
+    async function refreshUI() {
+        const portfolios = await loadPortfolios();
+        updatePortfolioDropdown(portfolios);
 
-        const portfolios = window.PowerUpStorage.getPortfolios();
+        if (window.PowerUpRender && typeof window.PowerUpRender.renderPortfolios === "function") {
+            window.PowerUpRender.renderPortfolios(portfolios);
+        }
+    }
+
+    function updatePortfolioDropdown(portfolios) {
+        const select = document.getElementById("portfolio-select");
+        if (!select) return;
+
         select.innerHTML = '<option value="">-- Select a portfolio --</option>';
 
         portfolios.forEach(function (p) {
             const option = document.createElement("option");
             option.value = p.id;
-            option.textContent = p.name || p.title || `Portfolio ${p.id}`;
+            option.textContent = p.displayName || `Portfolio ${p.id}`;
             select.appendChild(option);
         });
     }
