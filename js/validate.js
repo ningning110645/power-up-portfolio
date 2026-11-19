@@ -98,17 +98,16 @@
   }
 
 
-  function validatePortfolioForm(form) {
+   function validatePortfolioForm(form) {
     const errors = [];
 
-    const firstName = readValue(form, "first-name");
-    const lastName = readValue(form, "last-name");
+    const displayName = readValue(form, "displayName");
     const enjoy = readValue(form, "What-i-enjoy");
     const tried = readValue(form, "what-i-tried");
     const curious = readValue(form, "What-I'm-Curious-About");
 
-    if (firstName === "" && lastName === "") {
-      errors.push("Please enter a First name or Last name.");
+    if (displayName === "") {
+      errors.push("Please enter a Display name.");
     }
     if (enjoy === "") errors.push("Please fill in \"What I Enjoy\".");
     if (tried === "") errors.push("Please fill in \"What I've Tried\".");
@@ -121,7 +120,7 @@
     return {
       valid: true,
       errors: [],
-      portfolio: { firstName: firstName, lastName: lastName, enjoy: enjoy, tried: tried, curious: curious }
+      portfolio: { displayName: displayName, enjoy: enjoy, tried: tried, curious: curious }
     };
   }
 
