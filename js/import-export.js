@@ -176,3 +176,90 @@ document.getElementById("copy-export-btn").addEventListener("click", async funct
     showMessage("export-message", "Could not copy automatically. The text is selected: press Cmd/Ctrl + C.", true);
   }
 });
+
+ 
+// =====================================================
+// 3. GENERATE Challenge Item JSON
+// =====================================================
+
+document.getElementById("challenge-form").addEventListener("submit", function (event) {
+  event.preventDefault();
+
+  const title = document.getElementById("challenge-title").value.trim();
+  const description = document.getElementById("challenge-description").value.trim();
+
+  const skills = document.getElementById("challenge-skills").value
+    .split(",")
+    .map(skill => skill.trim())
+    .filter(skill => skill !== "");
+
+  const evidence = document.getElementById("challenge-evidence").value
+    .split(/[,\n]+/)
+    .map(link => link.trim())
+    .filter(link => link !== "");
+
+  if (!title || !description || skills.length === 0 || evidence.length === 0) {
+    showMessage("challenge-message", "Please complete all fields.", true);
+    return;
+  }
+
+  const today = new Date();
+  const localDate = [
+    today.getFullYear(),
+    String(today.getMonth() + 1).padStart(2, "0"),
+    String(today.getDate()).padStart(2, "0")
+  ].join("-");
+
+  const item = {
+    title: title,
+    type: "Challenge",
+    date: localDate,
+    role: "Participant",
+    description: description,
+    skills: skills,
+    reflection: {
+      whatIDid: "",
+      whatILearned: "",
+      challenge: "",
+      nextStep: ""
+    },
+    evidence: evidence
+  };
+
+  document.getElementById("challenge-output").value =
+    JSON.stringify(item, null, 2);
+
+  showMessage("challenge-message", "Item JSON generated successfully!", false);
+
+  const progress = document.getElementById("challenge-progress");
+  const status = document.getElementById("challenge-status");
+  const badge = document.getElementById("challenge-badge");
+
+  progress.style.width = "100%";
+  progress.setAttribute("aria-valuenow", "100");
+
+  status.textContent = "Quest completed successfully!";
+  status.classList.remove("text-muted");
+  status.classList.add("text-success");
+
+  badge.classList.remove("d-none");
+
+  // Confetti celebration
+  const colors = ["#FFD700", "#FF69B4", "#00BFFF", "#32CD32", "#FF6347"];
+
+  for (let i = 0; i < 50; i++) {
+    const confetti = document.createElement("div");
+    confetti.className = "challenge-confetti";
+
+    confetti.style.left = Math.random() * 100 + "vw";
+    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    confetti.style.animationDelay = Math.random() * 0.5 + "s";
+
+    document.body.appendChild(confetti);
+
+    confetti.addEventListener("animationend", function () {
+      confetti.remove();
+    });
+  }
+
+});

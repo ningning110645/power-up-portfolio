@@ -27,3 +27,100 @@ h4{
 nav ul{
     padding: 10px;
 }
+
+.challenge-confetti {
+  position: fixed;
+  top: -20px;
+  width: 12px;
+  height: 18px;
+  pointer-events: none;
+  z-index: 99999;
+  opacity: 1;
+  animation: confettiFall 4s linear forwards;
+}
+
+@keyframes confettiFall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(105vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+/* Progress Bar Animation */
+#challenge-progress {
+  transition: width 1.5s ease-in-out;
+}
+
+/* Badge Animation */
+@keyframes badgePop {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) translateY(20px);
+  }
+
+  70% {
+    transform: scale(1.08) translateY(-5px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+#challenge-badge:not(.d-none) {
+  animation: badgePop 0.7s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #challenge-progress,
+  #challenge-badge:not(.d-none),
+  .challenge-confetti {
+    transition: none;
+    animation: none;
+  }
+}
+.css-wheel-wrap {
+  position: relative;
+  width: min(100%, 240px);
+  margin: 1rem auto;
+}
+
+.css-wheel {
+  position: relative;
+  aspect-ratio: 1;
+  border: 3px solid #172554;
+  border-radius: 50%;
+  background: repeating-conic-gradient(
+    from -18deg,
+    #dbeafe 0deg 36deg,
+    #93c5fd 36deg 72deg
+  );
+}
+
+.css-wheel span {
+  --angle: calc(var(--slot) * 36deg);
+  position: absolute;
+  inset: 0;
+  padding-top: 8%;
+  color: #172554;
+  text-align: center;
+  font-weight: 700;
+  transform: rotate(var(--angle));
+}
+
+.css-wheel-pointer {
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  z-index: 1;
+  transform: translateX(-50%);
+  border-left: 9px solid transparent;
+  border-right: 9px solid transparent;
+  border-top: 18px solid #172554;
+}
