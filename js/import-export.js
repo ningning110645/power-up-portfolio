@@ -184,7 +184,10 @@ document.getElementById("copy-export-btn").addEventListener("click", async funct
 
 document.getElementById("challenge-form").addEventListener("submit", function (event) {
   event.preventDefault();
-
+  if (event.currentTarget.dataset.cssPassed !== "true") {
+    showMessage("challenge-message", "Pass all CSS tasks before completing the challenge.", true);
+    return;
+  }
   const title = document.getElementById("challenge-title").value.trim();
   const description = document.getElementById("challenge-description").value.trim();
 
@@ -193,10 +196,18 @@ document.getElementById("challenge-form").addEventListener("submit", function (e
     .map(skill => skill.trim())
     .filter(skill => skill !== "");
 
-  const evidence = document.getElementById("challenge-evidence").value
-    .split(/[,\n]+/)
-    .map(link => link.trim())
-    .filter(link => link !== "");
+    const evidenceUrl = new URL(window.location.href);
+  evidenceUrl.hash = new URLSearchParams({
+    css: document.getElementById("css-challenge-editor").value
+  }).toString();
+
+  const evidence = [
+    evidenceUrl.href,
+    ...document.getElementById("challenge-evidence").value
+      .split(/[,\n]+/)
+      .map((link) => link.trim())
+      .filter((link) => link !== "")
+  ];
 
   if (!title || !description || skills.length === 0 || evidence.length === 0) {
     showMessage("challenge-message", "Please complete all fields.", true);
