@@ -64,7 +64,8 @@
 
           <div class="mb-3">
             <label for="What-i-enjoy" class="form-label">What I Enjoy</label>
-            <textarea class="form-control form-control-lg" id="What-i-enjoy" name="whatIEnjoy" rows="4" required></textarea>
+            <textarea class="form-control form-control-lg" id="What-i-enjoy" name="whatIEnjoy" rows="4"
+              required></textarea>
           </div>
 
           <div class="mb-3">
@@ -88,8 +89,20 @@
     <section id="item-form-section" class="card shadow-sm border-0 rounded-4 mb-5">
       <div class="card-body p-4">
         <h2 class="h4 mb-4">Add Portfolio Item</h2>
+        <!-- Import an Item JSON from a Challenge -->
+        <div class="border rounded-3 p-3 mb-4">
+          <h3 class="h6">Import Item JSON from a Challenge</h3>
+          <textarea id="import-json" class="form-control mb-2" rows="4"
+            placeholder='Paste the Item JSON here, e.g. {"title": "...", "type": "Challenge", ...}'></textarea>
+          <label for="import-file" class="form-label small text-muted mb-1">Got a .json file instead? Choose it
+            here:</label>
+          <input type="file" id="import-file" class="form-control form-control-sm mb-2" accept=".json,application/json">
+          <button type="button" id="import-btn" class="btn btn-outline-primary btn-sm">Fill the form</button>
+          <p id="import-message" class="small mt-2 mb-0"></p>
+        </div>
 
         <form id="item-form" novalidate>
+          <input type="hidden" id="challengeId" name="challengeId">
           <div class="mb-3">
             <label for="portfolio-select" class="form-label">Portfolio</label>
             <select id="portfolio-select" name="portfolioId" class="form-select" required>
@@ -110,6 +123,7 @@
                 <option>Personal Project</option>
                 <option>Activity</option>
                 <option>Competition</option>
+                <option>Challenge</option>
                 <option>Other</option>
               </select>
             </div>
@@ -131,7 +145,8 @@
 
           <div class="mb-4">
             <label for="skills" class="form-label">Skills</label>
-            <input type="text" id="skills" name="skills" class="form-control" placeholder="HTML, CSS, Teamwork" required>
+            <input type="text" id="skills" name="skills" class="form-control" placeholder="HTML, CSS, Teamwork"
+              required>
             <div class="form-text">Separate skills with commas</div>
           </div>
 
@@ -157,7 +172,8 @@
 
           <div class="mb-4">
             <label for="evidence" class="form-label">Evidence links</label>
-            <textarea id="evidence" name="evidence" class="form-control" rows="2" placeholder="https://example.com/my-work" required></textarea>
+            <textarea id="evidence" name="evidence" class="form-control" rows="2"
+              placeholder="https://example.com/my-work" required></textarea>
             <div class="form-text">One URL per line (at least 1)</div>
           </div>
 
@@ -165,6 +181,138 @@
             <button type="submit" class="btn btn-primary px-4">Add Item</button>
           </div>
         </form>
+      </div>
+    </section>
+    <!-- ===== Export my Portfolio ===== -->
+    <section id="export-section" class="card shadow-sm border-0 rounded-4 mb-5">
+      <div class="card-body p-4">
+        <h2 class="h4 mb-3">Export my Portfolio</h2>
+        <p class="text-muted small">Choose your Portfolio in the "Add Portfolio Item" form above, then export it.</p>
+        <button type="button" id="export-btn" class="btn btn-success">Export my-portfolio.json</button>
+                <button type="button" id="copy-export-btn" class="btn btn-outline-secondary">Copy JSON</button>
+        <textarea id="export-json" class="form-control mt-3" rows="8" readonly></textarea>
+        <p id="export-message" class="small mt-2 mb-0"></p>
+      </div>
+    </section>
+
+    <!-- ===== Challenge Section ===== -->
+    <section id="challenge-section" class="card shadow-sm border-0 rounded-4 mb-5">
+      <div class="card-body p-4">
+        <h2 class="h4 mb-3">Challenge Festival</h2>
+        <p class="text-muted">Complete a challenge and generate an Item JSON.</p>
+
+<div class="card bg-light border-0 rounded-3 mb-4">
+  <div class="card-body">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <h3 class="h5 mb-0">Your Quest</h3>
+      <span class="badge bg-warning text-dark">Quest</span>
+    </div>
+
+    <p class="mb-2">
+      Complete the booth challenge to earn your badge!
+    </p>
+
+    <div class="progress mb-2" style="height: 12px;">
+      <div id="challenge-progress"
+           class="progress-bar bg-success"
+           style="width: 0%;"
+           role="progressbar"
+           aria-valuenow="0"
+           aria-valuemin="0"
+           aria-valuemax="100"></div>
+    </div>
+
+    <p id="challenge-status" class="small text-muted mb-0">
+      Quest not completed yet.
+    </p>
+
+    <div id="challenge-badge" class="alert alert-success mt-3 mb-0 d-none"
+         role="status">
+      🏆 Quest Completed! You earned a badge!
+    </div>
+  </div>
+</div>
+<section class="border rounded-3 p-3 mb-4" aria-labelledby="css-challenge-title">
+  <h3 id="css-challenge-title" class="h5">CSS Challenge</h3>
+
+    <div class="css-wheel-wrap">
+  <span class="css-wheel-pointer" aria-hidden="true"></span>
+  <div id="css-challenge-wheel" class="css-wheel" aria-hidden="true">
+    <span style="--slot: 0">1</span>
+    <span style="--slot: 1">2</span>
+    <span style="--slot: 2">3</span>
+    <span style="--slot: 3">4</span>
+    <span style="--slot: 4">5</span>
+    <span style="--slot: 5">6</span>
+    <span style="--slot: 6">7</span>
+    <span style="--slot: 7">8</span>
+    <span style="--slot: 8">9</span>
+    <span style="--slot: 9">10</span>
+  </div>
+</div>
+
+<ul id="css-challenge-tasks" aria-live="polite">
+  <li>Press Spin Challenge to get your tasks.</li>
+</ul>
+
+  <div class="row g-3">
+    <div class="col-md-6">
+      <label for="css-challenge-editor" class="form-label">CSS Editor</label>
+      <textarea id="css-challenge-editor" class="form-control font-monospace"
+        rows="8" spellcheck="false"></textarea>
+    </div>
+
+    <div class="col-md-6">
+      <p class="form-label">Live Preview</p>
+      <iframe id="css-challenge-preview" title="Live Preview"
+  class="w-100 border rounded" height="220" sandbox="allow-same-origin"
+  srcdoc="<h1>My Website</h1><p>Welcome to my page</p><button>Click Me</button>">
+</iframe>
+    </div>
+  </div>
+
+  <div class="d-flex flex-wrap gap-2 mt-3">
+    <button id="css-challenge-spin" type="button" class="btn btn-primary">
+      Spin Challenge
+    </button>
+    <button id="css-challenge-check" type="button" class="btn btn-outline-primary">
+      Check CSS
+    </button>
+  </div>
+
+  <p id="css-challenge-result" class="mt-2 mb-0" role="status"></p>
+</section>
+        <form id="challenge-form">
+          <div class="mb-3">
+            <label for="challenge-title" class="form-label">Challenge Title</label>
+            <input type="text" id="challenge-title" class="form-control" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="challenge-description" class="form-label">Description</label>
+            <textarea id="challenge-description" class="form-control" rows="3" required></textarea>
+          </div>
+
+          <div class="mb-3">
+            <label for="challenge-skills" class="form-label">Skills</label>
+            <input type="text" id="challenge-skills" class="form-control"
+              placeholder="HTML, CSS, Teamwork" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="challenge-evidence" class="form-label">Evidence Links</label>
+            <textarea id="challenge-evidence" class="form-control" rows="2"
+              placeholder="https://example.com" required></textarea>
+          </div>
+
+<button type="submit" class="btn btn-primary">Complete Challenge</button>
+        </form>
+
+        <div class="mt-4">
+          <label for="challenge-output" class="form-label">Generated Item JSON</label>
+          <textarea id="challenge-output" class="form-control" rows="10" readonly></textarea>
+          <p id="challenge-message" class="small mt-2 mb-0"></p>
+        </div>
       </div>
     </section>
 
@@ -177,6 +325,8 @@
   <script src="js/validate.js"></script>
   <script src="js/render.js"></script>
   <script src="js/app.js"></script>
+  <script src="js/import-export.js"></script>
+  <script src="js/css-challenge.js"></script>
 </body>
 
 </html>
