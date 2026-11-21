@@ -181,9 +181,74 @@ document.getElementById("copy-export-btn").addEventListener("click", async funct
 // =====================================================
 // 3. GENERATE Challenge Item JSON
 // =====================================================
+async function loadChallengePortfolios() {
+  const select = document.getElementById("challenge-portfolio-select");
+  const status = document.getElementById("saved-challenges-status");
+  const list = document.getElementById("saved-challenges-list");
+  if (!select || !status || !list) return;
 
-document.getElementById("challenge-form").addEventListener("submit", function (event) {
-  event.preventDefault();
+  const selectedId = select.value;
+  status.textContent = "Loading saved challenges…";
+
+  try {
+    const response = await fetch("api/portfolios.php", { cache: "no-store" });
+    if (!response.ok) throw new Error("Could not load portfolios.");
+
+    const portfolios = await response.json();
+    select.options.length = 1;
+    select.options[0].textContent = portfolios.length
+      ? "Select a portfolio"
+      : "No portfolios on the server yet";
+
+    for (const portfolio of portfolios) {
+      select.add(new Option(portfolio.displayName, portfolio.id));
+    }
+
+    select.value = portfolios.some((p) => p.id === selectedId) ? selectedId : "";
+
+    select.onchange = () => {
+      list.replaceChildren();
+      const portfolio = portfolios.find((p) => p.id === select.value);
+
+      if (!portfolio) {
+        status.textContent = "Select a portfolio to see its saved challenges.";
+        return;
+      }
+
+      const challenges = (portfolio.items || []).filter((item) => item.type === "Challenge");
+      status.textContent = challenges.length ? "" : "No saved challenges in this portfolio yet.";
+
+      for (const item of challenges) {
+        const row = document.createElement("li");
+        row.textContent = item.title;
+
+        for (const url of item.evidence || []) {
+          if (!/^https?:\/\//i.test(url)) continue;
+
+          const link = document.createElement("a");
+          link.href = url;
+          link.textContent = "Open evidence";
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
+          link.className = "ms-2";
+          row.append(link);
+        }
+
+        list.append(row);
+      }
+    };
+
+    select.onchange();
+  } catch {
+    list.replaceChildren();
+    select.options[0].textContent = "Could not load portfolios from the server";
+    status.textContent = "Could not load saved challenges from the server.";
+  }
+}
+
+loadChallengePortfolios();
+
+document.getElementById("challenge-form").addEventListener("submit", async function (event) {  event.preventDefault();
   if (event.currentTarget.dataset.cssPassed !== "true") {
     showMessage("challenge-message", "Pass all CSS tasks before completing the challenge.", true);
     return;
@@ -228,19 +293,43 @@ document.getElementById("challenge-form").addEventListener("submit", function (e
     role: "Participant",
     description: description,
     skills: skills,
-    reflection: {
-      whatIDid: "",
-      whatILearned: "",
-      challenge: "",
-      nextStep: ""
+         reflection: {
+      whatIDid: document.getElementById("challenge-what-i-did").value.trim(),
+      whatILearned: document.getElementById("challenge-what-i-learned").value.trim(),
+      challenge: document.getElementById("challenge-reflection").value.trim(),
+      nextStep: document.getElementById("challenge-next-step").value.trim()
     },
     evidence: evidence
   };
 
   document.getElementById("challenge-output").value =
     JSON.stringify(item, null, 2);
+    const portfolioId = document.getElementById("challenge-portfolio-select").value;
 
-  showMessage("challenge-message", "Item JSON generated successfully!", false);
+  if (portfolioId) {
+    const submitButton = event.currentTarget.querySelector('button[type="submit"]');
+    submitButton.disabled = true;
+
+    try {
+      const response = await fetch("api/items.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...item, portfolioId })
+      });
+
+      if (!response.ok) throw new Error("Could not save the item.");
+
+      showMessage("challenge-message", "Item saved to your portfolio!", false);
+      await loadChallengePortfolios();
+    } catch {
+      showMessage("challenge-message", "Could not save to the server. You can still copy the Item JSON.", true);
+      return;
+    } finally {
+      submitButton.disabled = false;
+    }
+  } else {
+    showMessage("challenge-message", "Item JSON generated. Select a portfolio to save it to the server.", false);
+  }
 
   const progress = document.getElementById("challenge-progress");
   const status = document.getElementById("challenge-status");
