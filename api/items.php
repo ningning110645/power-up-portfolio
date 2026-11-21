@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/storage.php';
+require_once __DIR__ . '/validation.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     sendJson(['error' => 'Method not allowed'], 405);
