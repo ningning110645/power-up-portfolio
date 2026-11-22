@@ -36,7 +36,7 @@ mkdir -p "$DATA_DIR"
 touch "$DATA_DIR/portfolios.json"
 
 echo "==> [4/7] ตั้งค่า nginx (block /data/ + fastcgi PHP)"
-PHP_SOCK=$(ls /run/php/php*-fpm.sock 2>/dev/null | head -1 || true)
+PHP_SOCK=$(ls /run/php/php[0-9]*-fpm.sock 2>/dev/null | head -1 || ls /run/php/php*-fpm.sock 2>/dev/null | head -1 || true)
 if [ -z "$PHP_SOCK" ]; then
   echo "ERROR: หา php-fpm socket ไม่เจอ" >&2; exit 1
 fi
