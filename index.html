@@ -22,6 +22,7 @@
             <li class="nav-item"><a class="nav-link" href="#Home">Home</a></li>
             <li class="nav-item"><a class="nav-link" href="#portfolio-form-section">Portfolio Form</a></li>
             <li class="nav-item"><a class="nav-link" href="#item-form-section">Add Item</a></li>
+            <li class="nav-item"><a class="nav-link" href="#import-challenge-section">Import Challenge</a></li>
             <li class="nav-item"><a class="nav-link" href="#portfolio-view">Preview</a></li>
           </ul>
         </div>
@@ -316,6 +317,28 @@
       </div>
     </section>
 
+        <!-- ===== Import Challenge ===== -->
+    <section id="import-challenge-section" class="card shadow-sm border-0 rounded-4 mb-5">
+      <div class="card-body p-4">
+        <h2 class="h4 mb-4">Import Challenge</h2>
+
+        <div class="mb-3">
+          <label for="import-challenge-file" class="form-label">Upload Challenge JSON file</label>
+          <input type="file" id="import-challenge-file" class="form-control" accept=".json,application/json">
+        </div>
+
+        <div class="mb-3">
+          <label for="import-challenge-text" class="form-label">Or paste Challenge JSON</label>
+          <textarea id="import-challenge-text" class="form-control" rows="6" placeholder='{ "schemaVersion": "1.0", ... }'></textarea>
+        </div>
+
+        <button type="button" id="import-challenge-btn" class="btn btn-primary px-4">Import Challenge</button>
+        <p id="import-challenge-message" class="mt-2" role="alert"></p>
+
+        <div id="import-challenge-view"></div>
+      </div>
+    </section>
+
     <!-- ===== Portfolio View ===== -->
     <section id="portfolio-view"></section>
   </main>
@@ -325,8 +348,12 @@
   <script src="js/validate.js"></script>
   <script src="js/render.js"></script>
   <script src="js/app.js"></script>
+<<<<<<< HEAD
   <script src="js/import-export.js"></script>
   <script src="js/css-challenge.js"></script>
+=======
+  <script src="js/challenge.js"></script>
+>>>>>>> feature/challenge-display
 </body>
 
 </html>
