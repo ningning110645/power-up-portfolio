@@ -54,8 +54,10 @@ chmod -R 750 "$DATA_DIR"   # www-data เท่านั้นที่อ่า
 
 echo "==> [6/7] เปิด service (enable = รอด reboot)"
 PHP_VER=$(basename "$PHP_SOCK" | sed 's/^php//; s/-fpm\.sock$//')
-systemctl enable --now nginx >/dev/null 2>&1 || systemctl restart nginx
-systemctl enable --now "php${PHP_VER}-fpm" >/dev/null 2>&1 || systemctl restart "php${PHP_VER}-fpm"
+systemctl enable nginx >/dev/null 2>&1
+systemctl restart nginx   # restart เสมอ — ให้ vhost ใหม่ถูกโหลดทั้งกรณี fresh install และ re-run
+systemctl enable "php${PHP_VER}-fpm" >/dev/null 2>&1
+systemctl restart "php${PHP_VER}-fpm"
 
 echo "==> [7/7] Healthcheck"
 sleep 1
