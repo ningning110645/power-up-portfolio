@@ -59,7 +59,7 @@ function validateEvidence($raw) {
 
     foreach ($links as $link) {
         if (!isValidLink($link)) {
-            $errors[] = 'Invalid link: ' . $link . ' (it must start with http:// or https://)';
+            $errors[] = 'Invalid link: ' . $link . ' (use a full link, for example https://example.com/my-work)';
         }
     }
 
