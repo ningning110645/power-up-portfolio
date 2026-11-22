@@ -3,7 +3,7 @@
 
 // ดึงข้อความจากข้อมูลที่ส่งมา แล้วตัดช่องว่างหัวท้ายออก
 // ถ้าไม่มีค่า หรือไม่ใช่ข้อความ จะได้ค่าว่าง ''
-function getText($data, $key) {
+function getTextVal($data, $key) {
     if (!isset($data[$key]) || !is_scalar($data[$key])) {
         return '';
     }
@@ -104,7 +104,7 @@ function validatePortfolioInput($input) {
     ];
 
     foreach ($fields as $key => $label) { // ตรวจแต่ละช่อง
-        $value = getText($input, $key);
+        $value = getTextVal($input, $key);
         if ($value === '') {
             $errors[] = 'Please fill in "' . $label . '".';
         }
@@ -120,9 +120,9 @@ function validatePortfolioInput($input) {
 //check item input (เรียกใช้ใน items.php)
 //reflection ส่งมาได้ 2 แบบ: แยกเป็นช่องๆ หรือซ้อนใน reflection { }
 function getReflectionText($input, $ref, $key) {
-    $value = getText($input, $key);
+    $value = getTextVal($input, $key);
     if ($value === '') {
-        $value = getText($ref, $key);
+        $value = getTextVal($ref, $key);
     }
     return $value;
 }
@@ -134,13 +134,13 @@ function validateItemInput($input) {
 
     $errors = [];
 
-    $portfolioId = getText($input, 'portfolioId');
-    $title       = getText($input, 'title');
-    $type        = getText($input, 'type');
-    $date        = getText($input, 'date');
-    $role        = getText($input, 'role');
-    $description = getText($input, 'description');
-    $challengeId = getText($input, 'challengeId'); 
+    $portfolioId = getTextVal($input, 'portfolioId');
+    $title       = getTextVal($input, 'title');
+    $type        = getTextVal($input, 'type');
+    $date        = getTextVal($input, 'date');
+    $role        = getTextVal($input, 'role');
+    $description = getTextVal($input, 'description');
+    $challengeId = getTextVal($input, 'challengeId'); 
 
     $ref = [];
     if (isset($input['reflection']) && is_array($input['reflection'])) {  
