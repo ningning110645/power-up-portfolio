@@ -68,7 +68,7 @@
     } else {
       for (let i = 0; i < evidence.length; i++) {
         if (!/^https?:\/\/\S+\.\S+$/.test(evidence[i])) {
-          errors.push("Invalid link: " + evidence[i] + " (it must start with http:// or https://)");
+          errors.push("Invalid link: " + evidence[i] + " (use a full link, for example https://example.com/my-work)");
         }
       }
     }
