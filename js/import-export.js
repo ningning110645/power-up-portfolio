@@ -24,6 +24,11 @@ function checkItem(item) {
     return ["Paste ONE Item that starts with { and ends with }"];
   }
 
+  // my-portfolio.json is a whole Portfolio (it has "items"), not one Item
+  if (Array.isArray(item.items)) {
+    return ['this is a whole Portfolio (my-portfolio.json), not one Item. Paste the "Generated Item JSON" from a Challenge instead'];
+  }
+
   const errors = [];
   for (const field of ITEM_TEXT_FIELDS) {
     if (typeof item[field] !== "string" || item[field].trim() === "") {
