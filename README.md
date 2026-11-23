@@ -44,7 +44,7 @@ sudo ./deploy.sh --seed     # --seed = ใส่ portfolio ตัวอย่า
 | Persistence หลัง Reboot | `sudo reboot` → เครื่องขึ้นมาใหม่ → เปิด URL เดิม ข้อมูลยังอยู่ (ไม่ต้องรัน deploy ซ้ำ) |
 | File Access ถูกปิด | เปิด `http://<IP>/data/portfolios.json` ตรง → ต้องได้ **403** ไม่ใช่เนื้อหา JSON |
 | Import JSON (ข้ามกลุ่ม) | Copy JSON จากบูธเพื่อน → วางในช่อง Import → เลือก Portfolio → แก้ Reflection → Save |
-| Import ซ้ำ | Import JSON เดิมได้อีกครั้ง (เช่นเล่น Challenge เดิมอีกรอบ) แต่ละครั้งได้ Item ใหม่ id ไม่ซ้ำ มี Reflection ของตัวเอง ไม่ทับรายการเดิม |
+| Import ซ้ำไม่ซ้ำ ID | Import Item JSON เดิมเข้า Portfolio เดิมอีกครั้ง → Server ตรวจ `id` ซ้ำ ตอบกลับ 409 และแจ้งว่า Item นี้มีอยู่แล้ว ไม่สร้างรายการซ้ำ |
 | Export My Portfolio | ปุ่ม Export → ได้ `my-portfolio.json` เฉพาะ portfolio ตัวเอง |
 
 ## วิธีทดลอง Challenge และ Import/Export Portfolio Item

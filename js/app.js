@@ -57,7 +57,14 @@ document.addEventListener("DOMContentLoaded", function () {
                     method: "POST",
                     body: new FormData(itemForm)
                 });
-                if (!res.ok) throw new Error("HTTP " + res.status);
+                if (!res.ok) {
+                    // แสดงข้อความจาก Server เช่น Item ซ้ำ หรือข้อมูลไม่ผ่าน validation
+                    const data = await res.json().catch(() => ({}));
+                    alert(data.error || ("เพิ่ม Item ไม่สำเร็จ (HTTP " + res.status + ")"));
+                    // 409 = Item นี้มีอยู่แล้ว ล้างฟอร์ม (รวม importedId) จะได้ไม่ติดไปกับ Item ถัดไป
+                    if (res.status === 409) itemForm.reset();
+                    return;
+                }
 
                 alert("เพิ่ม Item เข้า Portfolio เรียบร้อยแล้ว!");
                 itemForm.reset();

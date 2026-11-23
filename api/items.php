@@ -21,8 +21,14 @@ $input['evidence'] : preg_split('/[\n,]+/',
 $input['evidence'] ?? '');
 $ref         = is_array($input['reflection'] ?? null) ? $input['reflection'] : [];
 
+// id ของ Item ที่ Import มา (จากฟอร์ม importedId หรือจาก JSON ที่ส่งตรง)
+$importedId = trim($input['importedId'] ?? $input['id'] ?? '');
+if ($importedId !== '' && !preg_match('/^[A-Za-z0-9_.-]{1,100}$/', $importedId)) {
+    sendJson(['error' => 'Invalid item id'], 400);
+}
+
 $item = [
-    'id'          => uniqid('item'),
+    'id'          => $importedId !== '' ? $importedId : uniqid('item'),
     'title'       => $title,
     'type'        => trim($input['type'] ?? ''),
     'date'        => trim($input['date'] ?? ''),
@@ -42,6 +48,12 @@ $item = [
 $portfolios = readPortfolios();
 foreach ($portfolios as $i => $p) {
     if ($p['id'] === $portfolioId) {
+        // ป้องกัน Import ซ้ำ: Item id เดิมอยู่ใน Portfolio นี้แล้ว
+        foreach ($p['items'] ?? [] as $old) {
+            if ($importedId !== '' && ($old['id'] ?? '') === $importedId) {
+                sendJson(['error' => 'This item is already in this Portfolio (it was imported before).'], 409);
+            }
+        }
         $portfolios[$i]['items'][] = $item;
         writePortfolios($portfolios);
         sendJson($item, 201);

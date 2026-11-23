@@ -59,6 +59,8 @@ function fillItemForm(item) {
   }
 
   document.getElementById("challengeId").value = item.challengeId || "";
+  // Keep the Item id so the server can stop the same Item being imported twice
+  document.getElementById("importedId").value = typeof item.id === "string" ? item.id : "";
 }
 
 document.getElementById("import-btn").addEventListener("click", function () {
@@ -107,6 +109,7 @@ document.getElementById("import-file").addEventListener("change", async function
 // form.reset() does not clear hidden inputs, so clear challengeId ourselves
 document.getElementById("item-form").addEventListener("reset", function () {
   document.getElementById("challengeId").value = "";
+  document.getElementById("importedId").value = "";
 });
 
 // =====================================================
@@ -215,7 +218,12 @@ document.getElementById("challenge-form").addEventListener("submit", function (e
     String(today.getDate()).padStart(2, "0")
   ].join("-");
 
+  // A new unique id for every completed Challenge (Contract: id is a string)
+  const itemId = "item-" + Date.now() + "-" + Math.floor(Math.random() * 1000);
+
   const item = {
+    schemaVersion: "1.0",
+    id: itemId,
     title: title,
     type: "Challenge",
     date: localDate,
