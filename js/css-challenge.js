@@ -1,7 +1,13 @@
 (() => {
   const editor = document.getElementById("css-challenge-editor");
   const preview = document.getElementById("css-challenge-preview");
+  const challengeForm = document.getElementById("challenge-form");
+  challengeForm.dataset.cssPassed = "false";
 
+  editor.addEventListener("input", () => {
+    challengeForm.dataset.cssPassed = "false";
+    document.getElementById("css-challenge-result").textContent = "";
+  });
   function updatePreview() {
     const previewDocument = preview.contentDocument;
     if (!previewDocument?.head) return;
@@ -15,7 +21,10 @@
 
     style.textContent = editor.value;
   }
-
+    const evidenceCss = new URLSearchParams(location.hash.slice(1)).get("css");
+  if (evidenceCss !== null) {
+    editor.value = evidenceCss;
+  }
   preview.addEventListener("load", updatePreview);
   editor.addEventListener("input", updatePreview);
   updatePreview();
@@ -43,6 +52,7 @@
     spinButton.disabled = true;
     taskList.replaceChildren();
     selectedTasks.length = 0;
+        challengeForm.dataset.cssPassed = "false";
     document.getElementById("css-challenge-result").textContent = "";
     const count = Math.random() < 0.5 ? 1 : 2;
     const remaining = tasks.map((_, index) => index);
@@ -80,6 +90,7 @@
     }
 
     spinButton.disabled = false;
+  });
       const checkButton = document.getElementById("css-challenge-check");
   const result = document.getElementById("css-challenge-result");
 
@@ -125,10 +136,11 @@
         button.paddingLeft
       ].every(atLeast12px)
     ];
-
+        challengeForm.dataset.cssPassed = String(
+      selectedTasks.every((index) => passed[index])
+    );
     result.textContent = selectedTasks.map((index) =>
       `#${index + 1}: ${passed[index] ? "Passed ✓" : "Try again"}`
     ).join(" · ");
-  });
   });
 })();

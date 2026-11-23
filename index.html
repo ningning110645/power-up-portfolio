@@ -285,6 +285,14 @@
 </section>
         <form id="challenge-form">
           <div class="mb-3">
+  <label for="challenge-portfolio-select" class="form-label">
+    Save to Portfolio
+  </label>
+  <select id="challenge-portfolio-select" class="form-select">
+    <option value="">Select a portfolio</option>
+  </select>
+</div>
+          <div class="mb-3">
             <label for="challenge-title" class="form-label">Challenge Title</label>
             <input type="text" id="challenge-title" class="form-control" required>
           </div>
@@ -303,9 +311,27 @@
           <div class="mb-3">
             <label for="challenge-evidence" class="form-label">Evidence Links</label>
             <textarea id="challenge-evidence" class="form-control" rows="2"
-              placeholder="https://example.com" required></textarea>
+              placeholder="https://example.com" ></textarea>
           </div>
+          <div class="mb-3">
+  <label for="challenge-what-i-did" class="form-label">What I did</label>
+  <textarea id="challenge-what-i-did" class="form-control" rows="2" required></textarea>
+</div>
 
+<div class="mb-3">
+  <label for="challenge-what-i-learned" class="form-label">What I learned</label>
+  <textarea id="challenge-what-i-learned" class="form-control" rows="2" required></textarea>
+</div>
+
+<div class="mb-3">
+  <label for="challenge-reflection" class="form-label">Challenge</label>
+  <textarea id="challenge-reflection" class="form-control" rows="2" required></textarea>
+</div>
+
+<div class="mb-3">
+  <label for="challenge-next-step" class="form-label">Next step</label>
+  <textarea id="challenge-next-step" class="form-control" rows="2" required></textarea>
+</div>
 <button type="submit" class="btn btn-primary">Complete Challenge</button>
         </form>
 
@@ -314,6 +340,11 @@
           <textarea id="challenge-output" class="form-control" rows="10" readonly></textarea>
           <p id="challenge-message" class="small mt-2 mb-0"></p>
         </div>
+          <section class="mt-4" aria-labelledby="saved-challenges-title">
+  <h3 id="saved-challenges-title" class="h5">Saved Challenges</h3>
+  <p id="saved-challenges-status" role="status">Select a portfolio to see its saved challenges.</p>
+  <ul id="saved-challenges-list"></ul>
+</section>
       </div>
     </section>
 

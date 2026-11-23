@@ -124,3 +124,95 @@ nav ul{
   border-right: 9px solid transparent;
   border-top: 18px solid #172554;
 }
+/* CSS Challenge */
+section[aria-labelledby="css-challenge-title"] {
+  background: #f8f7ff;
+  border-color: #ddd6fe !important;
+}
+
+#css-challenge-title {
+  color: #312e81;
+  font-weight: 800;
+}
+
+.css-wheel {
+  border-color: #312e81;
+  background: repeating-conic-gradient(
+    from -18deg,
+    #c4b5fd 0deg 36deg,
+    #bfdbfe 36deg 72deg
+  );
+  box-shadow: 0 8px 20px rgb(49 46 129 / 18%);
+}
+
+.css-wheel-pointer {
+  border-top-color: #312e81;
+}
+
+#css-challenge-tasks {
+  display: grid;
+  gap: 0.5rem;
+  padding-left: 0;
+  list-style: none;
+}
+
+#css-challenge-tasks li {
+  padding: 0.65rem 0.85rem;
+  border-left: 4px solid #6d28d9;
+  border-radius: 0.5rem;
+  background: #fff;
+  color: #312e81;
+}
+
+#css-challenge-spin {
+  --bs-btn-bg: #6d28d9;
+  --bs-btn-border-color: #6d28d9;
+  --bs-btn-hover-bg: #5b21b6;
+  --bs-btn-hover-border-color: #5b21b6;
+  --bs-btn-active-bg: #4c1d95;
+  --bs-btn-active-border-color: #4c1d95;
+}
+/* Props around the challenge wheel */
+.css-wheel-wrap::before,
+.css-wheel-wrap::after {
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;
+  line-height: 1;
+}
+
+.css-wheel-wrap::before {
+  content: "✦";
+  top: 12%;
+  left: 4%;
+  color: #a16207;
+  font-size: 1.65rem;
+  transform: rotate(-14deg);
+}
+
+.css-wheel-wrap::after {
+  content: "✧";
+  right: 3%;
+  bottom: 13%;
+  color: #6d28d9;
+  font-size: 1.85rem;
+  transform: rotate(12deg);
+}
+
+.css-wheel::after {
+  content: "CSS";
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  margin: auto;
+  border: 2px solid #312e81;
+  border-radius: 50%;
+  background: #fff;
+  color: #312e81;
+  font-size: 0.8rem;
+  font-weight: 800;
+  box-shadow: 0 2px 8px rgb(49 46 129 / 22%);
+}
